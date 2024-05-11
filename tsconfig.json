@@ -1,0 +1,28 @@
+{
+    "include": ["source"],
+    "exclude": ["node_modules", "build"],
+    "compilerOptions": {
+        "target": "es2017",
+        "module": "CommonJS",
+        "lib": ["ESNext"],
+        "outDir": "build",
+        "declaration": true,
+        "removeComments": true,
+        "moduleResolution": "node",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "strict": true,
+        "checkJs": true,
+        "allowJs": true,
+        "skipLibCheck": true,
+        "resolveJsonModule": true,
+        "incremental": true,
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["source/*"]
+        },
+        "types": ["reflect-metadata"]
+    }
+}

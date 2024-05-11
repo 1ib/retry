@@ -1,0 +1,35 @@
+{
+  "name": "<package_name>",
+  "description": "<package_description>",
+  "repository": "git@github.com:<package_author_name>/<package_name>.git",
+  "homepage": "https://github.com/<package_author_name>/<package_name>",
+  "author": "<package_author_name>",
+  "keywords": [],
+  "private": true,
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=21"
+  },
+  "main": "./build/main.js",
+  "files": [
+    "build/**/*"
+  ],
+  "scripts": {
+    "test": "find ./source -name '*.test.ts' -exec node --loader @swc-node/register/esm --test {} \\;",
+    "build": "tsc -p tsconfig.build.json && tsc-alias",
+    "build:watch": "tsc -p tsconfig.build.json -w && tsc-alias -w",
+    "prepublishOnly": "npm run build && npm version patch",
+    "format": "prettier source/**/*.ts -w"
+  },
+  "devDependencies": {
+    "@swc-node/register": "^1.9.0",
+    "@swc/core": "^1.4.5",
+    "@types/node": "^20.11.25",
+    "prettier": "^2.3.0",
+    "tsc-alias": "^1.2.11",
+    "typescript": "next"
+  },
+  "dependencies": {
+    "reflect-metadata": "^0.2.1"
+  }
+}
