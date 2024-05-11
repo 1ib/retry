@@ -1,9 +1,46 @@
-# <package_name>
+# retry
 
-<package_description>
+A TypeScript utility for retrying sync/async methods that throw errors.
 
 ```ts
-  <package_demo>
+import { limit } from "@1ib/retry"
+
+class Case1 {
+  // Use the `limit` decorator to retry a method if it throws an error, for a maximum of 3 tries.
+  @limit(3)
+  foo() {
+    // This method can return anything or throw an error.
+  }
+}
+
+const case = new Case1()
+const result = case.foo()
+```
+
+```ts
+class Case2 {
+  // Same as Case1, but an async function, which means it returns a Promise.
+  // It also retries up to 3 times if an error is thrown.
+  @limit(3)
+  async foo() {
+    // This method can return anything or throw an error.
+  }
+}
+
+const case = new Case2()
+const result = await case.foo()
+```
+
+```ts
+class Case3 {
+  // This `limit` decorator takes two arguments. The first is the maximum retry count (3).
+  // The second argument is a function that decides whether to retry based on the result or error.
+  // In this case, If the result has a property `needRetry` set to true, the method will retry.
+  @limit(3, ({ needRetry }: Result | Error) => needRetry)
+  foo() {
+    // This method can return any value or throw an error.
+  }
+}
 ```
 
 ## Install
@@ -13,21 +50,21 @@
 Install using [npm][npm] or [yarn][yarn]:
 
 ```
-npm install <package_author_name>/<package_name>
+npm install @1ib/retry
 
 # or
 
-yarn add <package_author_name>/<package_name>
+yarn add @1ib/retry
 ```
 
 Import into your Node.js project:
 
 ```js
 // CommonJS
-const { <package_name> } = require("<package_author_name>/<package_name>")
+const { retry } = require("@1ib/retry")
 
 // ESM
-import { <package_name> } from "<package_author_name>/<package_name>"
+import { retry } from "@1ib/retry"
 ```
 
 ### Deno
@@ -35,17 +72,17 @@ import { <package_name> } from "<package_author_name>/<package_name>"
 Install using [JSR](https://jsr.io):
 
 ```shell
-deno add <package_author_name>/<package_name>
+deno add @1ib/retry
 
 #or
 
-jsr add <package_author_name>/<package_name>
+jsr add @1ib/retry
 ```
 
 Then import into your Deno project:
 
 ```js
-import { <package_name> } from "<package_author_name>/<package_name>"
+import { retry } from "@1ib/retry"
 ```
 
 ### Bun
@@ -53,13 +90,13 @@ import { <package_name> } from "<package_author_name>/<package_name>"
 Install using this command:
 
 ```
-bun add <package_author_name>/<package_name>
+bun add @1ib/retry
 ```
 
 Import into your Bun project:
 
 ```js
-import { <package_name> } from "<package_author_name>/<package_name>"
+import { retry } from "@1ib/retry"
 ```
 
 ### Browser
@@ -67,22 +104,22 @@ import { <package_name> } from "<package_author_name>/<package_name>"
 It's recommended to import the minified version to save bandwidth:
 
 ```js
-import { <package_name> } from "https://cdn.skypack.dev/<package_author_name>/<package_name>?min"
+import { retry } from "https://cdn.skypack.dev/@1ib/retry?min"
 ```
 
 However, you can also import the unminified version for debugging purposes:
 
 ```js
-import { <package_name> } from "https://cdn.skypack.dev/<package_author_name>/<package_name>"
+import { retry } from "https://cdn.skypack.dev/@1ib/retry"
 ```
 
 ## License
 
-This project is licensed under the <package_license>.
+This project is licensed under the MIT.
 
 ## Author
 
-[<package_author_name>](https://github.com/<package_author_name>)
+[kingcc](https://github.com/kingcc)
 
 ---
 

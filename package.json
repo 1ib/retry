@@ -1,9 +1,9 @@
 {
-  "name": "<package_name>",
-  "description": "<package_description>",
-  "repository": "git@github.com:<package_author_name>/<package_name>.git",
-  "homepage": "https://github.com/<package_author_name>/<package_name>",
-  "author": "<package_author_name>",
+  "name": "retry",
+  "description": "A TypeScript utility for retrying sync/async methods that throw errors.",
+  "repository": "git@github.com:1ib/retry.git",
+  "homepage": "https://github.com/1ib/retry",
+  "author": "kingcc",
   "keywords": [],
   "private": true,
   "version": "0.0.1",
@@ -30,6 +30,5 @@
     "typescript": "next"
   },
   "dependencies": {
-    "reflect-metadata": "^0.2.1"
   }
 }
