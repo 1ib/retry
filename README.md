@@ -39,6 +39,12 @@ const result = await case.foo()
 For custom retry logic:
 
 ```ts
+interface Result {
+    // You can customize the flag to determine whether to retry
+    // This case we use the `needRetry` property
+    needRetry: boolean
+}
+
 class Case3 {
     // This `limit` decorator takes two arguments.
     // The first is the maximum retry count (3).
@@ -48,7 +54,7 @@ class Case3 {
     // the method will retry.
     @limit(3, ({ needRetry }: Result | Error) => needRetry)
     foo() {
-        // This method can return any value or throw an error.
+        // This method can return a `Result` or throw an error.
     }
 }
 ```
