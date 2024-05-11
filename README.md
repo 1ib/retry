@@ -2,28 +2,78 @@
 
 <package_description>
 
+```ts
+  <package_demo>
+```
+
 ## Install
 
-This package requires Node.js version X or higher.
+### Node.js
 
-To install this package, use npm:
+Install using [npm][npm] or [yarn][yarn]:
 
-```bash
-npm install <package_name>
+```
+npm install <package_author_name>/<package_name>
+
+# or
+
+yarn add <package_author_name>/<package_name>
 ```
 
-## Usage
+Import into your Node.js project:
 
-After installation, you can use the package in your project by requiring it:
+```js
+// CommonJS
+const { <package_name> } = require("<package_author_name>/<package_name>")
 
-```javascript
-const { ... } = require("<package_name>")
+// ESM
+import { <package_name> } from "<package_author_name>/<package_name>"
 ```
 
-If you are using ES6 or TypeScript:
+### Deno
 
-```javascript
-import <package_name> from "<package_name>"
+Install using [JSR](https://jsr.io):
+
+```shell
+deno add <package_author_name>/<package_name>
+
+#or
+
+jsr add <package_author_name>/<package_name>
+```
+
+Then import into your Deno project:
+
+```js
+import { <package_name> } from "<package_author_name>/<package_name>"
+```
+
+### Bun
+
+Install using this command:
+
+```
+bun add <package_author_name>/<package_name>
+```
+
+Import into your Bun project:
+
+```js
+import { <package_name> } from "<package_author_name>/<package_name>"
+```
+
+### Browser
+
+It's recommended to import the minified version to save bandwidth:
+
+```js
+import { <package_name> } from "https://cdn.skypack.dev/<package_author_name>/<package_name>?min"
+```
+
+However, you can also import the unminified version for debugging purposes:
+
+```js
+import { <package_name> } from "https://cdn.skypack.dev/<package_author_name>/<package_name>"
 ```
 
 ## License
