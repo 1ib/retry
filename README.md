@@ -2,6 +2,8 @@
 
 A TypeScript utility for retrying sync/async methods that throw errors.
 
+Basic usage:
+
 ```ts
 import { limit } from "@1ib/retry"
 
@@ -17,6 +19,8 @@ const case = new Case1()
 const result = case.foo()
 ```
 
+For `async` methods:
+
 ```ts
 class Case2 {
   // Same as Case1, but an async function, which means it returns a Promise.
@@ -30,6 +34,8 @@ class Case2 {
 const case = new Case2()
 const result = await case.foo()
 ```
+
+For custom retry logic:
 
 ```ts
 class Case3 {

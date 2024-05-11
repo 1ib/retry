@@ -1,5 +1,5 @@
 {
-  "name": "retry",
+  "name": "@1ib/retry",
   "description": "A TypeScript utility for retrying sync/async methods that throw errors.",
   "repository": "git@github.com:1ib/retry.git",
   "homepage": "https://github.com/1ib/retry",
