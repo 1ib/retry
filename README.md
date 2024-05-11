@@ -8,7 +8,8 @@ Basic usage:
 import { limit } from "@1ib/retry"
 
 class Case1 {
-  // Use the `limit` decorator to retry a method if it throws an error, for a maximum of 3 tries.
+  // Use the `limit` decorator to retry a method if it throws an error,
+  // for a maximum of 3 tries.
   @limit(3)
   foo() {
     // This method can return anything or throw an error.
@@ -39,13 +40,16 @@ For custom retry logic:
 
 ```ts
 class Case3 {
-  // This `limit` decorator takes two arguments. The first is the maximum retry count (3).
-  // The second argument is a function that decides whether to retry based on the result or error.
-  // In this case, If the result has a property `needRetry` set to true, the method will retry.
-  @limit(3, ({ needRetry }: Result | Error) => needRetry)
-  foo() {
-    // This method can return any value or throw an error.
-  }
+    // This `limit` decorator takes two arguments.
+    // The first is the maximum retry count (3).
+    // The second argument is a function that decides whether to retry based on
+    // the result or error.
+    // In this case, If the result has a property `needRetry` set to true,
+    // the method will retry.
+    @limit(3, ({ needRetry }: Result | Error) => needRetry)
+    foo() {
+        // This method can return any value or throw an error.
+    }
 }
 ```
 
