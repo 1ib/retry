@@ -5,7 +5,6 @@
   "homepage": "https://github.com/1ib/retry",
   "author": "kingcc",
   "keywords": [],
-  "private": true,
   "version": "1.0.0",
   "engines": {
     "node": ">=21"
