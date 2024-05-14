@@ -1,8 +1,0 @@
-!build/
-source
-.github
-.prettierignore
-.prettierrc
-.vscode
-tsconfig.json
-*.tsbuildinfo

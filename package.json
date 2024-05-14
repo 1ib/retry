@@ -5,13 +5,14 @@
   "homepage": "https://github.com/1ib/retry",
   "author": "kingcc",
   "keywords": [],
-  "version": "1.0.2",
+  "version": "1.0.3",
   "engines": {
     "node": ">=21"
   },
   "main": "./build/main.js",
   "files": [
-    "build/**/*"
+    "build/**/*.js",
+    "build/**/*.ts"
   ],
   "scripts": {
     "test": "find ./source -name '*.test.ts' -exec node --loader @swc-node/register/esm --test {} \\;",
