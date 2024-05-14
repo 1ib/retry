@@ -18,17 +18,21 @@
     "test": "find ./source -name '*.test.ts' -exec node --loader @swc-node/register/esm --test {} \\;",
     "build": "tsc -p tsconfig.build.json && tsc-alias",
     "build:watch": "tsc -p tsconfig.build.json -w && tsc-alias -w",
-    "prepublishOnly": "npm run build && npm version patch",
+    "prepublishOnly": "npm run test && npm run build && npm version patch",
     "format": "prettier source/**/*.ts -w"
   },
   "devDependencies": {
     "@swc-node/register": "^1.9.0",
     "@swc/core": "^1.4.5",
+    "@types/is-async-function": "^2.0.3",
     "@types/node": "^20.11.25",
     "prettier": "^2.3.0",
+    "ts-macros": "^2.6.0",
+    "ts-patch": "^3.1.2",
     "tsc-alias": "^1.2.11",
     "typescript": "next"
   },
   "dependencies": {
+    "is-async-function": "^2.0.0"
   }
 }
