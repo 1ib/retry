@@ -18,7 +18,7 @@
     "test": "find ./source -name '*.test.ts' -exec node --loader @swc-node/register/esm --test {} \\;",
     "build": "tsc -p tsconfig.build.json && tsc-alias",
     "build:watch": "tsc -p tsconfig.build.json -w && tsc-alias -w",
-    "prepublishOnly": "npm run test && npm run build && npm version patch",
+    "prepublishOnly": "npm run test && npm run build && git status && npm version patch",
     "format": "prettier source/**/*.ts -w"
   },
   "devDependencies": {
