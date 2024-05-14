@@ -16,7 +16,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 21
           registry-url: "https://registry.npmjs.org"
       - uses: pnpm/action-setup@v3
         name: Install pnpm
@@ -41,6 +41,5 @@ jobs:
       # no need to build the package, prepublish script will take care of it
       - name: Publish package on NPM 📦
         run: npm publish
-        working-directory: packages/express-typed
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
