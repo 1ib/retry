@@ -4,4 +4,4 @@
 .vscode
 source
 tsconfig.json
-*.tsbuildinfo
+**/*.tsbuildinfo
