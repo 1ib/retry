@@ -9,7 +9,7 @@ on:
       - main
     
 jobs:
-  build-and-publish-express-typed:
+  build-and-publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
