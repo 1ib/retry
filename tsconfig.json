@@ -2,9 +2,8 @@
     "include": ["source"],
     "exclude": ["node_modules", "build"],
     "compilerOptions": {
-        "target": "es2017",
+        "target": "es5",
         "module": "CommonJS",
-        "lib": ["ESNext"],
         "outDir": "build",
         "declaration": true,
         "removeComments": true,
