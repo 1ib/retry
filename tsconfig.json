@@ -2,8 +2,8 @@
     "include": ["source"],
     "exclude": ["node_modules", "build"],
     "compilerOptions": {
-        "target": "es5",
-        "module": "CommonJS",
+        "target": "es2017",
+        "types": ["node", "reflect-metadata"],
         "outDir": "build",
         "declaration": true,
         "removeComments": true,

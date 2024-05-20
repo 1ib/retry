@@ -1,4 +1,5 @@
 import isAsync from "is-async-function"
+import { META_KEY_ATTEMPTS_INDEX } from "@/attempts";
 
 function asyncAdaptor(
     adaptor: { sync: Function; async: Function },
@@ -54,7 +55,7 @@ export function retry<Fn extends (...args: unknown[]) => unknown>(
                   attempts: number,
               ) => resultOrError instanceof Error && attempts <= retriesOrcheck
     return <T>(
-        target: unknown,
+        target: Object,
         property: string | symbol,
         descriptor: TypedPropertyDescriptor<T>,
     ) => {
@@ -66,8 +67,12 @@ export function retry<Fn extends (...args: unknown[]) => unknown>(
                     sync(...args: unknown[]) {
                         let attempts = 0
                         let resultOrError: ReturnType<Fn> | Error
-
+                        
                         do {
+                            const parameterIndex = Reflect.getMetadata(META_KEY_ATTEMPTS_INDEX, target, property);
+                            if (typeof parameterIndex === 'number') {
+                                args[parameterIndex] = attempts;
+                            }
                             resultOrError = safety(method).apply(this, args)
                         } while (check(resultOrError, ++attempts))
 
@@ -80,6 +85,10 @@ export function retry<Fn extends (...args: unknown[]) => unknown>(
                         let resultOrError: ReturnType<Fn> | Error
 
                         do {
+                            const parameterIndex = Reflect.getMetadata(META_KEY_ATTEMPTS_INDEX, target, property);
+                            if (typeof parameterIndex === 'number') {
+                                args[parameterIndex] = attempts;
+                            }
                             resultOrError = await safety(method).apply(
                                 this,
                                 args,

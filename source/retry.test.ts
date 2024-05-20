@@ -1,18 +1,16 @@
 import assert from "node:assert"
 import { describe, mock, test, Mock } from "node:test"
-import { retry } from "./retry"
+import { retry, attempts } from "@/main"
 
 describe("sync method", () => {
     test("should retry twice", () => {
         class Test {
-            attempts = 0
-
             @retry(2)
-            thirdTimeWillWork() {
-                if (this.attempts++ < 2) {
+            thirdTimeWillWork(@attempts attempts?: number) {
+                if (attempts! < 2) {
                     throw new Error()
                 }
-                return this.attempts
+                return attempts
             }
         }
 
@@ -30,21 +28,19 @@ describe("sync method", () => {
                 .calls.length,
             1,
         )
-        assert.strictEqual(result, 3)
+        assert.strictEqual(result, 2)
     })
 
     test("should fail", () => {
-        class Test {
-            attempts = 0
-
-            @retry(1)
-            thirdTimeWillWork() {
-                if (this.attempts++ < 2) {
-                    throw new Error()
-                }
-                return this.attempts
+      class Test {
+        @retry(1)
+        thirdTimeWillWork(@attempts attempts?: number) {
+            if (attempts! < 2) {
+                throw new Error()
             }
+            return attempts
         }
+    }
 
         const test = new Test()
         mock.method(test, "thirdTimeWillWork")
@@ -65,17 +61,15 @@ describe("sync method", () => {
 
 describe("async method", () => {
     test("should retry twice", async () => {
-        class Test {
-            attempts = 0
-
-            @retry(2)
-            async thirdTimeWillWork() {
-                if (this.attempts++ < 2) {
-                    throw new Error()
-                }
-                return this.attempts
+      class Test {
+        @retry(2)
+        thirdTimeWillWork(@attempts attempts?: number) {
+            if (attempts! < 2) {
+                throw new Error()
             }
+            return attempts
         }
+    }
 
         const test = new Test()
         mock.method(test, "thirdTimeWillWork")
@@ -91,21 +85,19 @@ describe("async method", () => {
                 .calls.length,
             1,
         )
-        assert.strictEqual(result, 3)
+        assert.strictEqual(result, 2)
     })
 
     test("should fail", async () => {
-        class Test {
-            attempts = 0
-
-            @retry(1)
-            async thirdTimeWillWork() {
-                if (this.attempts++ < 2) {
-                    throw new Error()
-                }
-                return this.attempts
+      class Test {
+        @retry(1)
+       async thirdTimeWillWork(@attempts attempts?: number) {
+            if (attempts! < 2) {
+                throw new Error()
             }
+            return attempts
         }
+    }
 
         const test = new Test()
         mock.method(test, "thirdTimeWillWork")
@@ -125,20 +117,18 @@ describe("async method", () => {
 
     test("should use check callback", async () => {
         class Test {
-            attempts = 0
-
             @retry<() => { needRetry: boolean }>(
                 (result) => "needRetry" in result && result.needRetry,
             )
-            async thirdTimeWillWork() {
-                if (this.attempts++ < 2) {
+            async thirdTimeWillWork(@attempts attempts?: number) {
+                if (attempts! < 2) {
                     return {
-                        attempts: this.attempts,
+                        attempts,
                         needRetry: true,
                     }
                 }
                 return {
-                    attempts: this.attempts,
+                    attempts,
                 }
             }
         }
@@ -151,7 +141,7 @@ describe("async method", () => {
                 .calls.length,
             0,
         )
-        assert.deepEqual(await test.thirdTimeWillWork(), { attempts: 3 })
+        assert.deepEqual(await test.thirdTimeWillWork(), { attempts: 2 })
         assert.strictEqual(
             (test.thirdTimeWillWork as Mock<typeof test.thirdTimeWillWork>).mock
                 .calls.length,
@@ -161,20 +151,18 @@ describe("async method", () => {
 
     test("should use async check callback", async () => {
         class Test {
-            attempts = 0
-
-            @retry<() => { needRetry: boolean }>(
-                async (result) => "needRetry" in result && result.needRetry,
-            )
-            thirdTimeWillWork() {
-                if (this.attempts++ < 2) {
+            @retry<() => { needRetry: boolean }>(async (result) => {
+                return "needRetry" in result && result.needRetry
+            })
+            thirdTimeWillWork(@attempts attempts?: number) {
+                if (attempts! < 2) {
                     return {
-                        attempts: this.attempts,
+                        attempts,
                         needRetry: true,
                     }
                 }
                 return {
-                    attempts: this.attempts,
+                    attempts,
                 }
             }
         }
@@ -187,7 +175,7 @@ describe("async method", () => {
                 .calls.length,
             0,
         )
-        assert.deepEqual(await test.thirdTimeWillWork(), { attempts: 3 })
+        assert.deepEqual(await test.thirdTimeWillWork(), { attempts: 2 })
         assert.strictEqual(
             (test.thirdTimeWillWork as Mock<typeof test.thirdTimeWillWork>).mock
                 .calls.length,
@@ -197,21 +185,19 @@ describe("async method", () => {
 
     test("should use async check callback and fail", async () => {
         class Test {
-            attempts = 0
-
             @retry<() => { needRetry: boolean }>(
                 async (result, attempts) =>
-                    "needRetry" in result && result.needRetry && attempts <= 1,
+                    "needRetry" in result && result.needRetry && attempts < 2,
             )
-            thirdTimeWillWork() {
-                if (this.attempts++ < 2) {
+            thirdTimeWillWork(@attempts attempts?: number) {
+                if (attempts! < 2) {
                     return {
-                        attempts: this.attempts,
+                        attempts,
                         needRetry: true,
                     }
                 }
                 return {
-                    attempts: this.attempts,
+                    attempts,
                 }
             }
         }
@@ -225,7 +211,7 @@ describe("async method", () => {
             0,
         )
         assert.deepEqual(await test.thirdTimeWillWork(), {
-            attempts: 2,
+            attempts: 1,
             needRetry: true,
         })
         assert.strictEqual(

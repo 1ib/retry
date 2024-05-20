@@ -33,6 +33,7 @@
     "typescript": "next"
   },
   "dependencies": {
-    "is-async-function": "^2.0.0"
+    "is-async-function": "^2.0.0",
+    "reflect-metadata": "^0.2.2"
   }
 }
