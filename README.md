@@ -40,7 +40,8 @@ class {
     // and only if the error is an `ENOENT` or `ENFILE` error.
     @retry(async ({ code }: Result | Error, attempts: number) =>
         (code === "ENFILE" || code === "EMFILE") && attempts < 3)
-    async foo() {
+    async foo(@attempts attemps?: number) {
+        console.info(`This method has been called ${attempts} times.`)
         return fs.readFile("README.md", "utf8")
     }
 }
