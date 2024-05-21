@@ -3,6 +3,7 @@
     "exclude": ["node_modules", "build"],
     "compilerOptions": {
         "target": "es2017",
+        "module": "commonjs",
         "types": ["node", "reflect-metadata"],
         "outDir": "build",
         "declaration": true,
