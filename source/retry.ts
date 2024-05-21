@@ -1,5 +1,5 @@
 import isAsync from "is-async-function"
-import { META_KEY_ATTEMPTS_INDEX } from "@/attempts";
+import { META_KEY_ATTEMPTS_INDEX } from "@/attempts"
 
 function asyncAdaptor(
     adaptor: { sync: Function; async: Function },
@@ -30,9 +30,7 @@ function safety<Fn extends Function>(fn: Fn) {
     )
 }
 
-export function retry<Fn extends (...args: unknown[]) => unknown>(
-    retries: number,
-): MethodDecorator
+export function retry(retries: number): MethodDecorator
 export function retry<Fn extends (...args: unknown[]) => unknown>(
     check: (
         resultOrError: ReturnType<Fn> | Error,
@@ -40,7 +38,7 @@ export function retry<Fn extends (...args: unknown[]) => unknown>(
     ) => boolean | Promise<boolean>,
 ): MethodDecorator
 export function retry<Fn extends (...args: unknown[]) => unknown>(
-    retriesOrcheck:
+    parameter:
         | number
         | ((
               resultOrError: ReturnType<Fn> | Error | unknown,
@@ -48,12 +46,12 @@ export function retry<Fn extends (...args: unknown[]) => unknown>(
           ) => boolean | Promise<boolean>),
 ): MethodDecorator {
     const check =
-        typeof retriesOrcheck === "function"
-            ? retriesOrcheck
+        typeof parameter === "function"
+            ? parameter
             : (
                   resultOrError: ReturnType<Fn> | Error | unknown,
                   attempts: number,
-              ) => resultOrError instanceof Error && attempts <= retriesOrcheck
+              ) => resultOrError instanceof Error && attempts <= parameter
     return <T>(
         target: Object,
         property: string | symbol,
@@ -67,11 +65,15 @@ export function retry<Fn extends (...args: unknown[]) => unknown>(
                     sync(...args: unknown[]) {
                         let attempts = 0
                         let resultOrError: ReturnType<Fn> | Error
-                        
+
                         do {
-                            const parameterIndex = Reflect.getMetadata(META_KEY_ATTEMPTS_INDEX, target, property);
-                            if (typeof parameterIndex === 'number') {
-                                args[parameterIndex] = attempts;
+                            const parameterIndex = Reflect.getMetadata(
+                                META_KEY_ATTEMPTS_INDEX,
+                                target,
+                                property,
+                            )
+                            if (typeof parameterIndex === "number") {
+                                args[parameterIndex] = attempts
                             }
                             resultOrError = safety(method).apply(this, args)
                         } while (check(resultOrError, ++attempts))
@@ -85,9 +87,13 @@ export function retry<Fn extends (...args: unknown[]) => unknown>(
                         let resultOrError: ReturnType<Fn> | Error
 
                         do {
-                            const parameterIndex = Reflect.getMetadata(META_KEY_ATTEMPTS_INDEX, target, property);
-                            if (typeof parameterIndex === 'number') {
-                                args[parameterIndex] = attempts;
+                            const parameterIndex = Reflect.getMetadata(
+                                META_KEY_ATTEMPTS_INDEX,
+                                target,
+                                property,
+                            )
+                            if (typeof parameterIndex === "number") {
+                                args[parameterIndex] = attempts
                             }
                             resultOrError = await safety(method).apply(
                                 this,
